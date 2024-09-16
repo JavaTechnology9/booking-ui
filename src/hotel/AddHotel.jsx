@@ -1,11 +1,11 @@
-import React from "react";
+import React,{useState} from "react";
 export default class AddHotel extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
                 hotelName:'',
                 hotelDescription:'',
-                hotelPrice:'',
+                price:'',
                 availableRooms:'',
                 location:'',
                 rooms:[],
@@ -17,15 +17,14 @@ export default class AddHotel extends React.Component {
         this.setHotelData = this.setHotelData.bind(this);
         this.setHotelRooms=this.setHotelRooms.bind(this);
     }
+    
     sendHotelRequest(event){
         event.preventDefault();
-        const {roomName, roomPrice,isAvailable}=this.state;
-        const roomData={roomName, roomPrice,isAvailable};
-        this.insertIntoArray(roomData);
-       
-       // const {hotelName,hotelDescription,hotelPrice,availableRooms,location}= this.state
-       // const hotelData={hotelName,hotelDescription,hotelPrice,availableRooms,location,rooms};
-       // console.log(hotelData);
+        this.insertIntoArray();
+       //console.log(this.state);
+       const {hotelName,hotelDescription,price,availableRooms,location,rooms}= this.state
+       const hotelData={hotelName,hotelDescription,price,availableRooms,location,rooms};
+       console.log(hotelData);
         console.log("send Request to Backend application");
         //console.log(this.state);
     }
@@ -46,9 +45,11 @@ export default class AddHotel extends React.Component {
         
     }
     
-    insertIntoArray(roomData){
-        this.state.rooms.slice(0,roomData);
-        console.log(this.rooms);
+    insertIntoArray=()=>{
+        let {roomName, roomPrice,isAvailable,rooms}=this.state;
+        const roomData={roomName, roomPrice,isAvailable};
+        rooms.push(roomData);
+        this.setState({rooms: rooms});
     }
     render() {
         return (
@@ -63,7 +64,7 @@ export default class AddHotel extends React.Component {
                         
                         <div className="col-auto">
                             <label for="hotelPrice" className="col-form-label">Hotel Price</label>
-                            <input type="number" id="hotelPrice" className="form-control" name="hotelPrice" onChange={this.setHotelData} required/ >
+                            <input type="number" id="hotelPrice" className="form-control" name="price" onChange={this.setHotelData} required/ >
                         </div>
                        
                         <div className="col-auto">
