@@ -1,0 +1,14 @@
+
+.hover-dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown-menu {
+    display: none;
+    margin-top: 0; /* Optional: Adjust as needed */
+  }
+  
+  .dropdown-item {
+    cursor: pointer;
+  }
+  
