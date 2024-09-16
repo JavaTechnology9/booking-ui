@@ -1,4 +1,5 @@
 import React,{useState} from "react";
+import axios from "axios";
 export default class AddHotel extends React.Component {
     constructor(props) {
         super(props);
@@ -18,7 +19,7 @@ export default class AddHotel extends React.Component {
         this.setHotelRooms=this.setHotelRooms.bind(this);
     }
     
-    sendHotelRequest(event){
+    async sendHotelRequest(event){
         event.preventDefault();
         this.insertIntoArray();
        //console.log(this.state);
@@ -26,7 +27,36 @@ export default class AddHotel extends React.Component {
        const hotelData={hotelName,hotelDescription,price,availableRooms,location,rooms};
        console.log(hotelData);
         console.log("send Request to Backend application");
-        //console.log(this.state);
+        try {
+            
+            const response = await axios.post('http://localhost:8080/hotel/addHotel', hotelData);
+
+            if (response.status === 200) {
+                alert(response.data);
+                window.location.reload();
+
+            }
+        } catch (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                const { status, data } = error.response;
+                if (status === 401) {
+                    this.setState({ message: data });
+                } else if (status === 400) {
+                    this.setState({ message: data });
+                } else if (status === 500) {
+                    this.setState({ message: data });
+                } else {
+                    this.setState({ message: 'An error occurred' });
+                }
+            } else if (error.request) {
+                // The request was made but no response was received
+                this.setState({ message: 'No response from server' });
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                this.setState({ message: 'Error: ' + error.message });
+            }
+        }
     }
     setHotelData(event) {
         const { name, value } = event.target;
